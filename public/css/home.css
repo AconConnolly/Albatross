@@ -1,0 +1,89 @@
+#title{
+    font-size: 250%;
+    color: #999923;
+}
+#header{
+    position: inline;
+}
+#account {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+}
+#image {
+    background-image: url(images/Image_2.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: scroll;
+    background-position: center center;
+    position: relative;
+    height: 400px;
+    opacity: 0.8;
+    
+}
+#image #form {
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-top: 10%;
+}
+#image #course {
+    width: 400px;
+    height: 40px;
+    padding: 0 20px;
+}
+#image #date {
+    margin-top: 10px;
+    width: 200px;
+    height: 40px;
+    padding: 0 20px;
+}
+#contents input,
+input::-webkit-input-placeholder {
+    font: 20px/3 sans-serfif;
+}
+#radio {
+    margin-top: 30px;
+    margin-left: 16px;
+    font-size: 25px;
+    color: white;
+}
+#submit {
+    margin-top: 15px;
+    margin-left: 20px;
+}
+#submit input {
+    padding: 7px;
+    width: 90px;
+    font-size: larger;
+    background-color: #999923;
+    color: white;
+}
+#image h3 {
+    margin-left: 16px;
+    color: white;
+    font-size: 25px;
+}
+.container {
+    display: flex;
+    background-color:white;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+  }
+  
+.block {
+    width: 50%;
+    height: 100px;
+    background-color: #999923;
+    text-align: center;
+    margin: 5%;
+    width: 250px;
+    height: 150px;
+    color: white;
+  }
+.block h2{
+    margin-top: 20%;
+    font-size: 40px;
+  }
+  
+
