@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home Page</title>
+<link rel="stylesheet" href="/public/css/home.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  <!-- <script src="albatross.js"></script> -->
+  <script>
+    $( function() {
+      $( "#datepicker" ).datepicker();
+    } );
+    </script>
+</head>
+<body>
+   <div id="header">
+        <div id="title"><h1>Albatross</h1></div>
+        <div id="account"><h3><u>My Account</u></h3></div>
+   </div>
+   <div id="image">
+        <div id="form">
+            <form action="" method="POST">
+                <div id="course">
+                    <select name="courses" id="courses">
+                        <option value="Confederation">Confederation Park</option>
+                        <option value="Lakeview">Lakeview</option>
+                        <option value="Maple">Maple Ridge</option>
+                        <option value="McCall">McCall</option>
+                        <option value="Shag">Shaganappi Ridge</option>
+                    </select>
+                </div>
+                <div id="date">
+                    <p>Date: <input type="text" id="datepicker"></p>
+                </div>
+                <div id="radio">
+                    <input type="radio" id="nine" name="holes" value="nineHoles">
+                    <label for="nine">9 Holes</label>
+                    <input type="radio" id="eighteen" name="holes" value="eighteenHoles">
+                    <label for="eighteen">18 Holes</label>
+                </div>
+                <div id="submit"><input type="submit" id="bookCourse" name="bookCourse" value="Book"></div>
+            </form>
+        </div>
+   </div>
+    <div class="containerBottom">
+        <div class="block">
+            <a href="accountBookings.html"><h2>My Bookings</h2></a>
+        </div>
+        <div class="block">
+            <a href="courses.html"><h2>Courses</h2></a>
+        </div>
+    </div>
+</body>
+</html>
