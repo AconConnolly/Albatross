@@ -119,6 +119,7 @@
   }
   #return {
     text-align: center;
+    margin-bottom: 40px;
   }
   #return input {
     padding: 15px;
