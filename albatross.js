@@ -48,7 +48,7 @@ main();
 //Display todays date in the Date space
 var date = new Date();
 var day = date.getDate();
-var month = date.getMonth + 1;
+var month = date.getMonth() + 1;
 var year = date.getFullYear();
 
 if (month < 10) month = "0" + month;
@@ -83,14 +83,20 @@ const loginPage = document.getElementById("login-page");
 const loginButton = document.getElementById("login-button");
 
 loginButton.addEventListener("click", (e) => {
-    e.preventDefault;
+    e.preventDefault();
     const email = loginPage.email.value;
     const password = loginPage.password.value;
+    
+    const emailregex = /\S+@\S+\.\S+/;
+    if (!email || !emailregex.test(email) || !password) {
+        alert('Please enter a valid email and password');
+        return;
+    }
 
-    if(email === email && password === password) {
+    if(email === 'alexc8932@gmail.com' && password === '123') {
         alert("Successful log in");
         localStorage.setItem('isLoggedIn', true);
-        windows.location.href='/public/HomePage.html';
+        window.location.href='/public/HomePage.html';
     } else {
         alert ("Incorrect login! Idiot.");
     }
@@ -105,7 +111,7 @@ const url = 'https://w.cps.golf/CityCalgaryGolfReservations/(S(da5jiz0rgjllwu5y1
 
 axios.get(url)
     .then(response => {
-        const$ = cheerio.load(response.data);
+        const $ = cheerio.load(response.data);
         const teeTimes = $('.tee-time-slot');
 
         const teeTimeData = teeTimes.map((index, element) => {
@@ -124,29 +130,58 @@ axios.get(url)
 //and password to the page/type function. 
 const puppeteer = require('puppeteer');
 
-(async () => {
+async function makereservations(email, password, date) {
     const browser = await puppeteer.launch();
     const page = await puppeteer.newPage();
 
-    await page.goto('https://w.cps.golf/CityCalgaryGolfReservations/(S(da5jiz0rgjllwu5y1thj0ijv))/Home/WidgetView');
-    await page.type('#login-email', 'your-email');
-    await page.type('#login-password', 'your-password');
-    await page.click('#login-button');
-    await page.waitForNavigation();
+    await page.goto('https://www.calgary.ca/csps/parks/recreation/golf-courses/calgary-golf-courses.html');
+    await page.type('#login-email', email);
+    await page.type('#login-password', password);
+   
+    await Promise.all([
+        await page.waitForNavigation(),
+        await page.click('#login-button')
+    ]);
 
-    const availableTeetimes = await page.$$('.tee-time=slot .status:has-text("Available")');
+    const currentDate = new Date();
+    const bookingDate = new Date(date);
+
+    const timeDiff = bookingDate.getTime() - currentDate.getTime();
+    const daysDiff = timeDiff / (1000 * 3600 * 24);
+
+    if (daysDiff > 5) {
+        console.log("Outside of the time frames");
+        const waitTime = daysDiff - 5;
+        const waitMillSec = waitTime * 24 * 60 * 60 * 1000;
+        await new Promise (resolve => setTimeout(resolve,waitMillSec));
+        console.log("Within window, booking now");
+    }
+    
+
+    const availableTeetimes = await page.$$('.tee-time-slot .status:has-text("Available")');
     if (availableTeetimes.length > 0) {
-        const teeTimesSlot = availableTeeTimes[0].$('.tee-time-slot');
-        await teeTimeSlot.click('.time-slot');
-        await page.waitForSelector('.modal-content');
+            const teeTimesSlot = availableTeetimes[0].$('.time-slot');
+            await Promise.all([
+            teeTimesSlot.click(),
+            page.waitForSelector('.modal-content')
+        ]);
+
         await page.click('.modal-content button.btn-primary');
         await page.waitForSelector('.alert-success');
         console.log('Tee time booked oh yeah');
     } else {
         console.log('No luck buddday');
     }
-    await browser.close();
-})();
+        await browser.close();
+    }
+
+    if (require.main == module) {
+        const [,, email, password, day, time] = process.argv;
+        makereservations(email, password, day, time);
+    }
+
+module.exports = makereservations;
+
 
 
 
