@@ -44,6 +44,7 @@ async function main() {
 }
 main();
 
+
 //HomePage script
 //Display todays date in the Date space
 var date = new Date();
@@ -55,7 +56,7 @@ if (month < 10) month = "0" + month;
 if (day < 10) day = "0" + day;
 
 var today = year + "-" + month + "-" + day;
-document.getElementById("datePicker").value = today;
+document.getElementById("datepicker").value = today;
 console.log(today);
 
 //Try to pull variables
