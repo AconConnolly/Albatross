@@ -31,6 +31,7 @@ const phoneInput = document.getElementById("editPhone");
 const calgEmailInput = document.getElementById("editCalgEmail");
 const calgPassInput = document.getElementById("editCalgPass");
 
+
 editButton.addEventListener("click", () => {
   emailInput.value = document.getElementById("email").textContent;
   phoneInput.value = document.getElementById("phone").textContent;

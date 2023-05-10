@@ -1,3 +1,5 @@
+//I've split this into a client and server side js.
+
 console.log('Node Started');
 const {MongoClient} = require('mongodb')
 

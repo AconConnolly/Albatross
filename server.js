@@ -1,4 +1,4 @@
-const {MongoClient} = require('mongodb')
+const {MongoClient} = require('mongodb');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -15,6 +15,31 @@ app.post('/user', (req, res) => {
     console.log('Request received');
     console.log(req.body);
 });
+app.post('/register', async (req, res) => {
+    console.log('Request received');
+    console.log(req.body);
+  
+    const uri = 'mongodb://localhost:27017'
+    console.log("Connecting to mongo")
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    await client.connect();
+  
+    console.log("Connected")
+    const db = client.db('albatrossDatabase');
+    const collection = db.collection('User');
+    const result = await collection.insertOne({
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+      phone: req.body.phone,
+      calgEmail: req.body.calgEmail,
+      calgPass: req.body.calgPass
+    });
+    console.log(result.ops[0]);
+    res.send('Player added successfully');
+    client.close();
+  });
+
 async function main() {
     const uri = 'mongodb://localhost:27017'
     console.log("Connecting to mongo")
@@ -23,9 +48,12 @@ async function main() {
         console.error("An error occurred connecting to mongo")
         client.close();
     });
+
     console.log("Connected")
     const mongoDbs = await client.db().admin().listDatabases();
     const databaseNames = mongoDbs.databases.map(db => db.name)
+    const db = client.db('albatrossDatabase');
+    const collection = db.collection('User');
     console.log(`Databases::[${databaseNames.join(",")}]`)
 }
 main();
