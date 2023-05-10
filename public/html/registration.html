@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Registration</title>
+    <script>
+        function validateForm() {
+          var password = document.getElementById("password").value;
+          var confirmPassword = document.getElementById("confirm-password").value;
+          if (password != confirmPassword) {
+            alert("Passwords do not match!");
+            return false;
+          }
+          return true;
+        }
+      </script>
+  </head>
+  <body>
+    <h1>Create an account</h1>
+    <form action="/register" method="post" onsubmit="return validateForm()">
+        <h3>Albatross Information</h3>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br>
+            <label for="confirm-password">Confirm Password:</label>
+            <input type="password" id="confirm-password" name="confirm-password" required><br>
+      <h3>Player Information</h3>
+            <label for="first">First Name:</label>
+            <input type="first" id="first" name="first" required><br>
+            <label for="last">Last Name:</label>
+            <input type="last" id="last" name="last" required><br>
+            <label for="phone">Phone Number:</label>
+            <input type="phone" id="phone" name="phone" required><br>
+            <label for="calgEmail">Calgary Golf Email:</label>
+            <input type="calgEmail" id="calgEmail" name="calgEmail" required><br>
+            <label for="calgPass">Calgary Golf Password:</label>
+            <input type="calgPass" id="calgPass" name="calgPass" required><br>
+      <button type="submit">Register</button>
+    </form>
+  </body>
+</html>
