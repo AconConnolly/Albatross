@@ -4,32 +4,40 @@
 <meta charset="utf-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sign In Page</title>
-<link rel="stylesheet" href="/public/css/results.css">
-<script src="albatross.js"></script>
+<title>Account Information</title>
+<link rel="stylesheet" href="/public/css/####">
+<script src="client.js"></script>
 <script src="booking.js"></script>
 </head>
 <body>
-    <form action="/accounts" method="POST">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required value="<%= user.name %>">
-        <br>
-        <br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required value="<%= user.email %>">
-        <br>
-        <br>
-        <label for="phone">Phone:</label>
-        <input type="tel" id="phone" name="phone" required value="<%= user.phone %>">
-        <br>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <br>
-        <button type="submit">Save</button>
-      </form>
-      
-
+  <h1>Account Information</h1>
+    <p>Welcome, <span id="first-name"></span>!</p>
+    <p>Email: <span id="email-address"></span></p>
+    <p>Phone: <span id="phone-number"></span></p>
+    <p>Calgary Golf Email: <span id="calgary-golf-email"></span></p>
+    <p>Calgary Golf Password: <span id="calgary-golf-password"></span></p>
+    <button id="editButton">Edit</button>
+    
+  <h2>Edit Account Information</h2>
+    <form id="editForm" action="/update" method="post" onsubmit="return validateForm()">
+      <label for="email">Email:</label>
+      <input type="email" id="edit-email" name="email" value="current email" required><br>
+      <label for="password">Password:</label>
+      <input type="password" id="edit-password" name="password" required><br>
+      <label for="confirm-password">Confirm Password:</label>
+      <input type="password" id="confirm-password" name="confirm-password" required><br>
+      <label for="first-name">First Name:</label>
+      <input type="text" id="edit-first-name" name="first" value="current first name" required><br>
+      <label for="last-name">Last Name:</label>
+      <input type="text" id="edit-last-name" name="last" value="current last name" required><br>
+      <label for="phone-number">Phone Number:</label>
+      <input type="tel" id="edit-phone-number" name="phone" value="current phone number" required><br>
+      <label for="calgary-golf-email">Calgary Golf Email:</label>
+      <input type="email" id="edit-calgary-golf-email" name="calgEmail" value="current Calgary Golf email" required><br>
+      <label for="calgary-golf-password">Calgary Golf Password:</label>
+      <input type="password" id="edit-calgary-golf-password" name="calgPass" value="current Calgary Golf password" required><br>
+      <button type="submit">Save Changes</button>
+    </form>
+    
 </body>
 </html>
