@@ -63,12 +63,15 @@ main();
 const puppeteer = require('puppeteer');
 
 async function makereservations(email, password, date) {
-    const browser = await puppeteer.launch();
-    const page = await puppeteer.newPage();
+    const browser = await puppeteer.launch({
+        headless: false
+    });
+    const page = await browser.newPage();
 
-    await page.goto('https://www.calgary.ca/csps/parks/recreation/golf-courses/calgary-golf-courses.html');
-    await page.type('#login-email', email);
-    await page.type('#login-password', password);
+    await page.goto('https://www.calgary.ca/csps/parks/recreation/golf-courses/calgary-golf-courses.html',
+    {waitUntil: 'networkidle2'});
+    await page.type('input[type="email"]', email);
+    await page.type('input[type="password"]', password);
    
     await Promise.all([
         await page.waitForNavigation(),

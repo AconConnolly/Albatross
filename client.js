@@ -103,8 +103,6 @@ function runUserSelection() {
     const dateSelection = document.getElementById("datepicker").value;
     console.log(dateSelection);
 
-    const holeSelection = document.getElementById("holes").value;
-    console.log(holeSelection);
 
 }
 
