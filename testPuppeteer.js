@@ -51,6 +51,47 @@ async function makereservations(email, password, date, time, courseNo, players, 
     await searchButtonElement.click();
     await page.waitForNavigation({waitUntil: "networkidle2"});
 
+
+    const moment = require('moment');
+    const targetTime = moment('3:09 PM', 'h:mm A');
+    await selectClosestTeeTime(page, targetTime);
+
+
+    async function selectClosestTeeTime(page, targetTime) {
+        // Wait for the list of available tee times to load
+        await page.waitForSelector('.teeTime');
+      
+        // Get a list of all available tee times
+        const teeTimes = await page.$$('.teeTime');
+      
+        // Initialize the closest time and the minimum time difference
+        let closestTime = null;
+        let minTimeDiff = Infinity;
+      
+        // Loop through all available tee times and find the one closest to the desired time
+        for (let i = 0; i < teeTimes.length; i++) {
+          const timeElement = teeTimes[i];
+          const timeText = await timeElement.$eval('span', el => el.innerText);
+          const teeTime = moment(timeText.trim(), 'h:mm A');
+          const timeDiff = Math.abs(teeTime.diff(targetTime, 'minutes'));
+      
+          if (targetTime === 'Anytime') {
+            closestTime = teeTimes[0];
+            break;
+          }
+      
+          if (timeDiff < minTimeDiff) {
+            closestTime = timeElement;
+            minTimeDiff = timeDiff;
+          }
+        }
+      
+        // Click the closest tee time
+        await page.click('a[loginselected="0"]');
+        await closestTime.click('a[]');
+        await page.waitForNavigation({waitUntil: "networkidle2"});
+      }
+
  
 
     // const availableTeetimes = await page.$$('.tee-time-slot .status:has-text("Available")');
@@ -70,4 +111,4 @@ async function makereservations(email, password, date, time, courseNo, players, 
     //     await browser.close();
     }
 
-makereservations('alexc8932@gmail.com', 'Welcome644373', '2023-05-12', 'AnyTime', '4', '3', 'Search18')
+makereservations('alexc8932@gmail.com', 'Welcome644373', '2023-05-12', 'AnyTime', '4', '4', 'Search18')
