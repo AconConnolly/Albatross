@@ -16,19 +16,19 @@
   </head>
   <body>
     <h1>Create an account</h1>
-    <form action="/register" method="post" onsubmit="return validateForm()">
+    <form action="/api/register" method="post" onsubmit="return validateForm()">
       <h3>Albatross Information</h3>
           <label for="email">Email:</label>
           <input type="email" id="email" name="email" required><br>
           <label for="password">Password:</label>
           <input type="password" id="password" name="password" required><br>
-          <label for="confirm-password">Confirm Password:</label>
-          <input type="password" id="confirm-password" name="confirm-password" required><br>
+          <label for="confirmPassword">Confirm Password:</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" required><br>
       <h3>Player Information</h3>
-          <label for="first">First Name:</label>
-          <input type="first" id="first" name="first" required><br>
-          <label for="last">Last Name:</label>
-          <input type="last" id="last" name="last" required><br>
+          <label for="firstName">First Name:</label>
+          <input type="firstName" id="firstName" name="firstName" required><br>
+          <label for="lastName">Last Name:</label>
+          <input type="lastName" id="lastName" name="lastName" required><br>
           <label for="phone">Phone Number:</label>
           <input type="phone" id="phone" name="phone" required><br>
           <label for="calgEmail">Calgary Golf Email:</label>
