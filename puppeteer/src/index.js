@@ -57,7 +57,7 @@ async function run() {
         const password = decrypt(userObj.calgPass);
 
         const dateDate = new Date(date);
-        const timeToBook = new Date(dateDate.getUTCFullYear(), dateDate.getUTCMonth(), dateDate.getUTCDate() - 5, 6, 0, 0);
+        const timeToBook = new Date(dateDate.getUTCFullYear(), dateDate.getUTCMonth(), dateDate.getUTCDate() - 4, 6, 0, 0);
         console.log(`Booking ${course} for ${email} on ${date} ${time} at ${timeToBook}`);
         scheduledJobs[job._id] = job;
         scheduleTeeTimeBooking(job._id, timeToBook, time, date, course, {email, password})

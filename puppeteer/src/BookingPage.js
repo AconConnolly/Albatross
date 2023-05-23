@@ -94,8 +94,12 @@ export default class BookingPage {
         return new Promise(async (resolve, reject) => {
             const driver = this.driver;
             await driver.executeScript(`document.getElementById("FromDate").value = "${date}"`);
-            const dateInput = await driver.findElement(By.id("FromDate"));
-            resolve(await dateInput.getAttribute("value"));
+            try {
+                const dateInput = await driver.findElement(By.id("FromDate"));
+                resolve(await dateInput.getAttribute("value"));
+            } catch (e) {
+                reject();
+            }
         });
     };
 
@@ -120,24 +124,27 @@ export default class BookingPage {
                 [].slice.call(document.getElementById("holeNumberGroup").children).find(function(b) { return b.textContent === "18 Holes"}).click();
                 
             `);
-            const submit = await driver.findElement(By.id("btnSubmit"));
-            await submit.sendKeys(Key.ENTER);
-            await driver.wait(until.elementLocated(By.id("bodyContent")), 5000);
+            try {
+                const submit = await driver.findElement(By.id("btnSubmit"));
+                await submit.sendKeys(Key.ENTER);
+                await driver.wait(until.elementLocated(By.id("bodyContent")), 5000);
 
-            const teeTimeElements = await driver.findElements(By.css("div.teetime"));
-            const teeTimes = [];
+                const teeTimeElements = await driver.findElements(By.css("div.teetime"));
+                const teeTimes = [];
 
-            for (const tee of teeTimeElements) {
-                const time = await tee.getAttribute("teetime");
-                if (time != null) {
-                    teeTimes.push({
-                        time,
-                        element: tee,
-                    });
+                for (const tee of teeTimeElements) {
+                    const time = await tee.getAttribute("teetime");
+                    if (time != null) {
+                        teeTimes.push({
+                            time,
+                            element: tee,
+                        });
+                    }
                 }
+                resolve(teeTimes);
+            } catch (e) {
+                reject();
             }
-
-            resolve(teeTimes);
         });
 
     };
@@ -149,19 +156,22 @@ export default class BookingPage {
                 element.click(),
                 driver.findElement(By.id("SelectPlayersAndHole")),
             ]);
-            // console.log(modalButton);
-            await driver.wait(until.elementIsVisible(modal));
-            const modalButton = await modal.findElement(By.css("button.btn-primary"));
-            await modalButton.click();
-            await driver.wait(until.titleIs("Players Information"));
-            const [agreeToTerms, reserveButton] = await Promise.all([
-                driver.findElement(By.css("span.cbx-icon")),
-                driver.findElement(By.id("btnBook")),
-            ]);
-            // await agreeToTerms.click();
-            // await reserveButton.click();
+            try {
+                await driver.wait(until.elementIsVisible(modal));
+                const modalButton = await modal.findElement(By.css("button.btn-primary"));
+                await modalButton.click();
+                await driver.wait(until.titleIs("Players Information"));
+                const [agreeToTerms, reserveButton] = await Promise.all([
+                    driver.findElement(By.css("span.cbx-icon")),
+                    driver.findElement(By.id("btnBook")),
+                ]);
+                await agreeToTerms.click();
+                await reserveButton.click();
 
-            resolve();
+                resolve();
+            } catch (e) {
+                reject();
+            }
         });
     };
 }

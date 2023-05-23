@@ -18,7 +18,12 @@ export default function book(date, time, course, user) {
         console.log(`Setting course ${JSON.stringify(selectedCourse)}`);
 
         // await waitTillTime({h: 18, m: 52});
-        const teeTimes = await bookingPage.search({courseId: selectedCourse.id, date, maxPlayers: 4});
+        let teeTimes = [];
+        try {
+            teeTimes = await bookingPage.search({courseId: selectedCourse.id, date, maxPlayers: 4});
+        } catch (e) {
+            reject(e);
+        }
         if (teeTimes.length === 0) {
             await bookingPage.close();
             reject(new Error(`No tee times for ${time}`));
