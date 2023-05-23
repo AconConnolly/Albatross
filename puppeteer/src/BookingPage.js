@@ -31,8 +31,12 @@ export default class BookingPage {
                 .setChromeOptions(options)
                 .build();
             console.log(`${this.name} - Opening home page ${this.bookingUrl}`);
-            await this.driver.get(this.bookingUrl);
-            resolve();
+            try {
+                await this.driver.get(this.bookingUrl);
+                resolve();
+            } catch (e) {
+                reject(e);
+            }
         });
     };
 
@@ -93,7 +97,6 @@ export default class BookingPage {
             const dateInput = await driver.findElement(By.id("FromDate"));
             resolve(await dateInput.getAttribute("value"));
         });
-
     };
 
     setCourse = (id) => {

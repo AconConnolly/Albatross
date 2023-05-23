@@ -39,6 +39,7 @@ async function main() {
 }
 
 async function run() {
+    let scheduledJobs = {};
     await connectDB();
     let jobs = await Booking.find();
     for (let job of jobs) {
@@ -54,45 +55,76 @@ async function run() {
         }
         const email = userObj.calgEmail;
         const password = decrypt(userObj.calgPass);
-        console.log(email, password);
 
         const dateDate = new Date(date);
         const timeToBook = new Date(dateDate.getUTCFullYear(), dateDate.getUTCMonth(), dateDate.getUTCDate() - 5, 6, 0, 0);
         console.log(`Booking ${course} for ${email} on ${date} ${time} at ${timeToBook}`);
-        bookTeeTime(timeToBook, time, date, course, {email, password}).then();
+        scheduledJobs[job._id] = job;
+        scheduleTeeTimeBooking(job._id, timeToBook, time, date, course, {email, password})
+            .then(async (id) => {
+                //Update status to COMPLETED
+                await Booking.findOneAndUpdate({"_id": id}, {"status": "COMPLETED"});
+                delete scheduledJobs[id];
+
+            }).catch(async (id) => {
+            //Update status to FAILED
+            await Booking.findOneAndUpdate({"_id": id}, {"status": "FAILED"});
+            delete scheduledJobs[id];
+        });
     }
 }
 
-async function bookTeeTime(timeToBook = new Date(Date.now()),
+function scheduleTeeTimeBooking(id,
+                                timeToBook = new Date(Date.now()),
+                                time,
+                                date,
+                                course,
+                                user,
+) {
+    return new Promise(async (resolve, reject) => {
+        if (timeToBook.getTime() < Date.now()) {
+            console.log(`Booking immediately ${id}`);
+            const booked = await bookTeeTime(id, time, date, course, user);
+            if (booked) {
+                resolve(id);
+            } else {
+                reject(id);
+            }
+        } else {
+            console.log("Scheduling job for " + timeToBook.toISOString());
+            schedule.scheduleJob(timeToBook, async function () {
+                const booked = await bookTeeTime(id, time, date, course, user);
+                if (booked) {
+                    resolve(id);
+                } else {
+                    reject(id);
+                }
+            });
+        }
+    });
+
+}
+
+async function bookTeeTime(id,
                            time,
                            date,
                            course,
-                           user,
-) {
-    console.log("Scheduling job for " + timeToBook.toISOString());
-    schedule.scheduleJob(timeToBook, async function () {
-        await retry(async () => {
-                console.log(`Attempting to book ${course} for ${email} on ${date} ${time}`);
+                           user) {
+    let booked = false;
+    await retry(async bail => {
+            console.log(`Attempting to book ${course} on ${date} ${time}`);
+            try {
                 const booking = await book(date, time, course, user);
                 console.log("Booked ", booking);
-            },
-            {
-                retries: MAX_RETRY,
-                minTimeout: 1000,
-                maxTimeout: TIMEOUT,
-            });
-    });
-}
+                booked = true;
+            } catch (e) {
+                console.log("I'm an error ", e);
+                throw e;
+            }
+        },
+        {retries: MAX_RETRY, minTimeout: 1000, maxTimeout: TIMEOUT});
+    return booked;
 
-async function bookTeeTimeWork(time, date, course, user) {
-    let booked = false;
-    do {
-        try {
-            booked = true;
-        } catch (e) {
-            console.log(e);
-        }
-    } while (!booked);
 }
 
 main();

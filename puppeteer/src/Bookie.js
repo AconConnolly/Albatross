@@ -3,7 +3,11 @@ import BookingPage from "./BookingPage";
 export default function book(date, time, course, user) {
     return new Promise(async (resolve, reject) => {
         const bookingPage = new BookingPage("page1", "https://w.cps.golf/CityCalgaryGolfReservations/(S(ny0uvjcyurre3xvbt1gpuv0p))/Home/WidgetView");
-        await bookingPage.open();
+        try {
+            await bookingPage.open();
+        } catch (e) {
+            reject(e);
+        }
         await bookingPage.signIn(user.email, user.password);
         const courses = await bookingPage.getCourses();
         console.log(courses);
@@ -15,6 +19,11 @@ export default function book(date, time, course, user) {
 
         // await waitTillTime({h: 18, m: 52});
         const teeTimes = await bookingPage.search({courseId: selectedCourse.id, date, maxPlayers: 4});
+        if (teeTimes.length === 0) {
+            await bookingPage.close();
+            reject(new Error(`No tee times for ${time}`));
+            return;
+        }
         const timeInMinutes = convertTimeToLong(time);
 
         const teeTime = teeTimes.filter(t => {
@@ -35,7 +44,7 @@ export default function book(date, time, course, user) {
     });
 }
 
-export function convertTimeToLong(time) {
+function convertTimeToLong(time) {
     const {hour, minutes, period} = getTime(time);
     let timeInMinutes = minutes;
     if (period === "PM" && hour !== 12) {
