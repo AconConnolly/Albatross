@@ -31,7 +31,7 @@ export default function book(date, time, course, user) {
         console.log("closing");
         await bookingPage.close();
         console.log("closed");
-        resolve();
+        resolve(teeTime[0]);
     });
 }
 

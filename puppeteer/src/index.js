@@ -6,6 +6,7 @@ import connectDB from "../../config/db";
 import User from "../../schema/User";
 import {decrypt} from "../../modules/password/passwordUtils";
 import book from "./Bookie";
+import retry from "async-retry";
 
 const result = dotenv.config({path: "../config/.env"});
 
@@ -30,7 +31,14 @@ const COURSES = {
     "SHAGANAPPI_18": "Shaganappi Point (18)",
 };
 
+const TIMEOUT = 60000;
+const MAX_RETRY = 50;
+
 async function main() {
+    await run();
+}
+
+async function run() {
     await connectDB();
     let jobs = await Booking.find();
     for (let job of jobs) {
@@ -53,9 +61,6 @@ async function main() {
         console.log(`Booking ${course} for ${email} on ${date} ${time} at ${timeToBook}`);
         bookTeeTime(timeToBook, time, date, course, {email, password}).then();
     }
-
-    // let date = new Date(2023, 4, 22, 6, 0, 0);
-    // bookTeeTime().then(res => console.log(res));
 }
 
 async function bookTeeTime(timeToBook = new Date(Date.now()),
@@ -66,9 +71,28 @@ async function bookTeeTime(timeToBook = new Date(Date.now()),
 ) {
     console.log("Scheduling job for " + timeToBook.toISOString());
     schedule.scheduleJob(timeToBook, async function () {
-
-        const booking = await book(date, time, course, user);
+        await retry(async () => {
+                console.log(`Attempting to book ${course} for ${email} on ${date} ${time}`);
+                const booking = await book(date, time, course, user);
+                console.log("Booked ", booking);
+            },
+            {
+                retries: MAX_RETRY,
+                minTimeout: 1000,
+                maxTimeout: TIMEOUT,
+            });
     });
+}
+
+async function bookTeeTimeWork(time, date, course, user) {
+    let booked = false;
+    do {
+        try {
+            booked = true;
+        } catch (e) {
+            console.log(e);
+        }
+    } while (!booked);
 }
 
 main();
