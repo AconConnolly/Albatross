@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=production node server",
-    "dev": "nodemon server"
+    "start": "NODE_ENV=production node server/server",
+    "dev": "nodemon server/server"
   },
   "author": "",
   "license": "ISC",

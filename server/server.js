@@ -2,7 +2,7 @@ const dotenv = require("dotenv");
 const express = require("express");
 //routes
 const apiRoutes = require("./routes/api");
-const connectDB = require("./config/db")
+const connectDB = require("../config/db")
 
 
 dotenv.config({path: "./config/.env"});
@@ -11,7 +11,7 @@ const bodyParser = require("body-parser");
 const port = process.env.PORT || 5500;
 connectDB().then();
 
-app.use(express.static("public"));
+app.use(express.static("server"));
 app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({extended: true}));

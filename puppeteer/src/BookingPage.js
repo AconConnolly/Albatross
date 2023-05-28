@@ -26,10 +26,16 @@ export default class BookingPage {
                 options.windowSize(this.windowSize);
             }
 
-            this.driver = await new Builder()
+            const builder = await new Builder()
                 .forBrowser("chrome")
                 .setChromeOptions(options)
-                .build();
+
+            if(process.env.SELENIUM_GRID_SERVER != null) {
+                builder.usingServer(process.env.SELENIUM_GRID_SERVER)
+            }
+
+            this.driver = await builder.build();
+
             console.log(`${this.name} - Opening home page ${this.bookingUrl}`);
             try {
                 await this.driver.get(this.bookingUrl);
@@ -42,17 +48,23 @@ export default class BookingPage {
 
     getCourses = () => {
         return new Promise(async (resolve, reject) => {
-            const courseDd = await this.driver.findElement(By.id("ddlCourse"));
-            const selections = await courseDd.findElements(By.css("option"));
-            const courses = [];
-            for (const selection of selections) {
-                const [id, name] = await Promise.all([
-                    selection.getAttribute("value"),
-                    selection.getText(),
-                ]);
-                courses.push({id, name});
+            try {
+
+                const courseDd = await this.driver.findElement(By.id("ddlCourse"));
+                const selections = await courseDd.findElements(By.css("option"));
+                const courses = [];
+                for (const selection of selections) {
+                    const [id, name] = await Promise.all([
+                        selection.getAttribute("value"),
+                        selection.getText(),
+                    ]);
+                    courses.push({id, name});
+                }
+                resolve(courses);
+
+            } catch (e) {
+                reject(e);
             }
-            resolve(courses);
         });
     };
 
@@ -116,15 +128,15 @@ export default class BookingPage {
     search = ({courseId, date, maxPlayers = 4}) => {
         return new Promise(async (resolve, reject) => {
             const driver = this.driver;
-            await driver.executeScript(`
-                document.getElementById("ddlCourse").value = "${courseId}";
-                document.getElementById("FromDate").value = "${date}";
-                document.getElementById("playerNumberGroup");
-                [].slice.call(document.getElementById("playerNumberGroup").children).find(function(b) { return b.textContent === "${maxPlayers}"}).click();
-                [].slice.call(document.getElementById("holeNumberGroup").children).find(function(b) { return b.textContent === "18 Holes"}).click();
-                
-            `);
             try {
+                await driver.executeScript(`
+                    document.getElementById("ddlCourse").value = "${courseId}";
+                    document.getElementById("FromDate").value = "${date}";
+                    document.getElementById("playerNumberGroup");
+                    [].slice.call(document.getElementById("playerNumberGroup").children).find(function(b) { return b.textContent === "${maxPlayers}"}).click();
+                    [].slice.call(document.getElementById("holeNumberGroup").children).find(function(b) { return b.textContent === "18 Holes"}).click();
+                    
+                `);
                 const submit = await driver.findElement(By.id("btnSubmit"));
                 await submit.sendKeys(Key.ENTER);
                 await driver.wait(until.elementLocated(By.id("bodyContent")), 5000);
@@ -143,7 +155,7 @@ export default class BookingPage {
                 }
                 resolve(teeTimes);
             } catch (e) {
-                reject();
+                reject(e);
             }
         });
 
@@ -170,34 +182,8 @@ export default class BookingPage {
 
                 resolve();
             } catch (e) {
-                reject();
+                reject(e);
             }
         });
     };
 }
-
-/*
-let driver = await new Builder().forBrowser("chrome").build();
-    try {
-      await driver.get(GOLF_SITE);
-      const bookingUrl = await getBookingUrl(driver);
-      console.log(bookingUrl);
-    } catch (e) {
-      console.log("error" + e);
-      reject();
-    } finally {
-      console.log("Closing driver");
-      driver
-        .quit()
-        .then((a) => console.log("Driver closed"))
-        .catch((e) => console.log("Errororor"));
-      console.log("Closed driver");
-      resolve();
-    }
-
-
-async function getBookingUrl(driver) {
-  const atags = await driver.findElement(By.linkText(TEE_TIME));
-  return await atags.getAttribute("href");
-}
-*/
