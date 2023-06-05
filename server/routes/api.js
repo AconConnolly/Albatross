@@ -1,9 +1,9 @@
 const {MongoClient} = require("mongodb");
 const express = require("express");
 const router = express.Router();
-const User = require("../schema/User");
-const {hashPassword, encrypt, decrypt} = require("../modules/password/passwordUtils");
-const Booking = require("../schema/Booking");
+const User = require("../../schema/User");
+const {hashPassword, encrypt, decrypt} = require("../../modules/password/passwordUtils");
+const Booking = require("../../schema/Booking");
 
 router.post("/users", (req, res) => {
     console.log("Request received");

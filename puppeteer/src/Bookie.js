@@ -26,6 +26,7 @@ export default function book(date, time, course, user) {
         }
         if (teeTimes.length === 0) {
             await bookingPage.close();
+            console.error(`No tee times for ${time}`)
             reject(new Error(`No tee times for ${time}`));
             return;
         }
@@ -36,7 +37,12 @@ export default function book(date, time, course, user) {
             return teeTimeInMinutes - timeInMinutes > 0 && teeTimeInMinutes - timeInMinutes < 40;
         });
 
-        console.log(teeTime);
+        if (teeTime.length === 0) {
+            await bookingPage.close();
+            console.error(`No tee times for ${time}`)
+            resolve(null);
+            return;
+        }
 
         await bookingPage.book(teeTime[0]);
 

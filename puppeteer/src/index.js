@@ -33,25 +33,45 @@ const COURSES = {
 
 const TIMEOUT = 60000;
 const MAX_RETRY = 50;
+let scheduledJobs = {};
 
 async function main() {
     await run();
 }
 
 async function run() {
-    let scheduledJobs = {};
-    await connectDB();
-    let jobs = await Booking.find();
-    for (let job of jobs) {
+    return new Promise(async resolve => {
+        await connectDB();
+        setInterval(scheduleJobs, 5000);
+    });
+
+}
+
+async function scheduleJobs() {
+    return new Promise(async resolve => {
+        let jobs = await Booking.find({"status": "PENDING"});
+        if (jobs.length === 0) {
+            resolve();
+            return;
+        }
+
+        for (let job of jobs) {
+            scheduleJob(job);
+        }
+    });
+}
+
+async function scheduleJob(job) {
+    return new Promise(async resolve => {
         const {user, course, date, time, status} = job;
         if (status !== "PENDING") {
-            continue;
+            return;
         }
 
         const userObj = await User.findOne({"email": user});
         if (userObj == null) {
             console.log(`Can't schedule job ${job} no user found`);
-            continue;
+            return;
         }
         const email = userObj.calgEmail;
         const password = decrypt(userObj.calgPass);
@@ -60,18 +80,25 @@ async function run() {
         const timeToBook = new Date(dateDate.getUTCFullYear(), dateDate.getUTCMonth(), dateDate.getUTCDate() - 4, 6, 0, 0);
         console.log(`Booking ${course} for ${email} on ${date} ${time} at ${timeToBook}`);
         scheduledJobs[job._id] = job;
+        await Booking.findOneAndUpdate({"_id": job._id}, {"status": "IN_PROGRESS"});
         scheduleTeeTimeBooking(job._id, timeToBook, time, date, course, {email, password})
             .then(async (id) => {
                 //Update status to COMPLETED
                 await Booking.findOneAndUpdate({"_id": id}, {"status": "COMPLETED"});
                 delete scheduledJobs[id];
+                if (Object.keys(scheduledJobs).length === 0) {
+                    resolve();
+                }
 
             }).catch(async (id) => {
             //Update status to FAILED
             await Booking.findOneAndUpdate({"_id": id}, {"status": "FAILED"});
             delete scheduledJobs[id];
+            if (Object.keys(scheduledJobs).length === 0) {
+                resolve();
+            }
         });
-    }
+    });
 }
 
 function scheduleTeeTimeBooking(id,
@@ -115,8 +142,12 @@ async function bookTeeTime(id,
             console.log(`Attempting to book ${course} on ${date} ${time}`);
             try {
                 const booking = await book(date, time, course, user);
-                console.log("Booked ", booking);
-                booked = true;
+                if (booking == null) {
+                    console.error("Could not book tee time");
+                } else {
+                    console.log("Booked ", booking);
+                    booked = true;
+                }
             } catch (e) {
                 console.log("I'm an error ", e);
                 throw e;
@@ -127,4 +158,4 @@ async function bookTeeTime(id,
 
 }
 
-main();
+main().then(() => process.exit(0));
