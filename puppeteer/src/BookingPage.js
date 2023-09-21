@@ -28,10 +28,10 @@ export default class BookingPage {
 
             const builder = await new Builder()
                 .forBrowser("chrome")
-                .setChromeOptions(options)
+                .setChromeOptions(options);
 
-            if(process.env.SELENIUM_GRID_SERVER != null) {
-                builder.usingServer(process.env.SELENIUM_GRID_SERVER)
+            if (process.env.SELENIUM_GRID_SERVER != null) {
+                builder.usingServer(process.env.SELENIUM_GRID_SERVER);
             }
 
             this.driver = await builder.build();
@@ -161,7 +161,7 @@ export default class BookingPage {
 
     };
 
-    book = ({time, element}) => {
+    book = ({time, element}, isTest = false) => {
         return new Promise(async (resolve, reject) => {
             const driver = this.driver;
             const [_, modal] = await Promise.all([
@@ -177,8 +177,10 @@ export default class BookingPage {
                     driver.findElement(By.css("span.cbx-icon")),
                     driver.findElement(By.id("btnBook")),
                 ]);
-                await agreeToTerms.click();
-                await reserveButton.click();
+                if (!isTest) {
+                    await agreeToTerms.click();
+                    await reserveButton.click();
+                }
 
                 resolve();
             } catch (e) {

@@ -18,7 +18,7 @@ console.log(result.parsed);
 
 const GOLF_SITE = "https://www.calgary.ca/csps/recreation/golf-courses.html";
 
-const COURSES = {
+export const COURSES = {
     "CONFEDERATION_PARK": "Confederation Park (9)",
     "MAPLE_RIDGE_18": "Maple Ridge (18)",
     "MAPLE_RIDGE_9": "Maple Ridge (Back 9)",
