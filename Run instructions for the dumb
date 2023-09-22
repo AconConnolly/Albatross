@@ -1,0 +1,11 @@
+- git fetch
+- git status
+- npm run dev
+
+These will search git and start node
+
+- Use postman to create the JSON object
+- cd puppeteer 
+- npm start
+
+This should start the program. Puppeeteer needs to be active for this to work
