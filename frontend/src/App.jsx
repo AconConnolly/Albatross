@@ -16,11 +16,15 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Main from "./Main";
 import { Stack } from "@mui/material";
-import { AccessTime } from "@mui/icons-material";
+import { AccessTime, Tour } from "@mui/icons-material";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Course from "./pages/Course";
+
+
 
 const drawerWidth = 240;
 
-// Currently breaks it idk
+//
 // const theme = createTheme({
 //   components: {
 //     MuiTypography: {
@@ -100,6 +104,9 @@ export default function Dashboard() {
   };
 
   return (
+<BrowserRouter>
+<Routes>
+  <Route path="/" element= {
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
@@ -224,5 +231,10 @@ export default function Dashboard() {
         </Box>
       </Box>
     </ThemeProvider>
+  }
+  />
+  <Route path="/:id" element={<Course/>}/>
+    </Routes>
+    </BrowserRouter>
   );
 }
