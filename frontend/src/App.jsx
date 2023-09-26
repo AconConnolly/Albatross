@@ -28,6 +28,9 @@ import { mainNavbarItems } from "./Components/Navbar/NavbarList";
 import { NavbarStyles } from "./Components/Navbar/NavbarStyles";
 import { useParams, useNavigate } from "react-router-dom";
 import AppWrapper from "./AppWrapper";
+import SignUp from "./SignUp";
+import AllCourses from "./AllCourses";
+import Confed from "./Components/Calgary Courses/Confed"
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -36,9 +39,13 @@ export default function Dashboard() {
     <>
       <AppWrapper>
         <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/course/:courseId" element={<Course />} />
+          <Route path="/home" element={<Main />} />
+          <Route path="/bookings" element={<Main />} />
+          <Route path="/courses" element={<AllCourses />} />
           <Route path="/login" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/confed" element={<Confed />} />
+
         </Routes>
       </AppWrapper>
       

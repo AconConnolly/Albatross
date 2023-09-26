@@ -43,7 +43,8 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }));
 
-export default function CustomizedAccordions() {
+export default function CustomizedAccordions(props) {
+  const { ratesData, hoursData, courseDetails} = props;
   const [expanded, setExpanded] = React.useState("panel1");
 
   const handleChange = (panel) => (event, newExpanded) => {
