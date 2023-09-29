@@ -73,11 +73,11 @@ const allConfedImages = [
 
 
 
-const McCall = () => {
-  const courseName = "McCall Lake";
-  const courseImage = "src/Components/Images/MLake.jpg";
-  const aboutText = "McCall good";
-  const faqData = courses["mccall"];
+const Lakeview = () => {
+  const courseName = "Lakeview";
+  const courseImage = "src/Components/Images/confederation-hero.jpg";
+  const aboutText = "Lake good";
+  const faqData = courses["lake"];
   
 
   return ( 
@@ -91,4 +91,4 @@ const McCall = () => {
   )
 };
 
-export default McCall;
+export default Lakeview;

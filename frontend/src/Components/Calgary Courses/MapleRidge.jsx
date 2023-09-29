@@ -1,7 +1,7 @@
 import { Container } from "@mui/material";
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import ImageCollage from "../../Components/ImageCollage";
+import ImageCollage from "../ImageCollage";
 import CustomizedAccordions from "../CustomizedAccordions";
 import Course from "../../pages/Course";
 import { courses } from "../ParentDataTable";
@@ -73,11 +73,11 @@ const allConfedImages = [
 
 
 
-const McCall = () => {
-  const courseName = "McCall Lake";
+const MapleRidge = () => {
+  const courseName = "Maple Ridge";
   const courseImage = "src/Components/Images/MLake.jpg";
-  const aboutText = "McCall good";
-  const faqData = courses["mccall"];
+  const aboutText = "Maple good";
+  const faqData = courses["maple"];
   
 
   return ( 
@@ -91,4 +91,4 @@ const McCall = () => {
   )
 };
 
-export default McCall;
+export default MapleRidge;

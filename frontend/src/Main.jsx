@@ -5,6 +5,7 @@ import Paper from "@mui/material/Paper";
 import { Button } from "@mui/material";
 import CourseCard from "./Components/CourseCard";
 import CourseList from "./Components/CourseList";
+import DateCalendarValue from "./Components/DateCalendar";
 
 export default function Main(props) {
   return (
@@ -12,6 +13,8 @@ export default function Main(props) {
       <Container>
         
           <CourseList/>
+
+          <DateCalendarValue />
     
       </Container>
    

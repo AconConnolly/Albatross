@@ -44,7 +44,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 export default function CustomizedAccordions(props) {
-  const { ratesData, hoursData, courseDetails} = props;
+  const { faqData } = props;
   const [expanded, setExpanded] = React.useState("panel1");
 
   const handleChange = (panel) => (event, newExpanded) => {
@@ -62,7 +62,7 @@ export default function CustomizedAccordions(props) {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            <CustomizedTables/>
+            <CustomizedTables courseData ={faqData}/>
           </Typography>
         </AccordionDetails>
       </Accordion>
