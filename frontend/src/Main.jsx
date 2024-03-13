@@ -14,10 +14,8 @@ export default function Main(props) {
   }
   return (
         
-      <Container>
+      <Container style={{marginTop: '30px'}}>
 
-
-          
           <DateCalendarValue />
     
       </Container>
