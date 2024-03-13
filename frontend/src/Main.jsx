@@ -7,13 +7,17 @@ import CourseCard from "./Components/CourseCard";
 import CourseList from "./Components/CourseList";
 import DateCalendarValue from "./Components/DateCalendar";
 
+
 export default function Main(props) {
+  const handleSelectionChange = (selectedValue) => {
+    console.log("Selected value:", selectedValue);
+  }
   return (
         
       <Container>
-        
-          <CourseList/>
 
+
+          
           <DateCalendarValue />
     
       </Container>
