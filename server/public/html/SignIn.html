@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In Page</title>
+<link rel="stylesheet" href="/public/css/SignIn.css">
+<script src="albatross.js"></script>
+<script src=""></script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="home">
+            <div id="title">
+                <h1>Albatross</h1>
+            </div>
+            <div id="contents">
+                <form action="/user" method="POST" id="login-page">
+                    <input type="text" id="email" name="email" placeholder="Email"/><br>
+                    <br><br>
+                    <input type="text" id="password" name="password" placeholder="Password"/>
+                    <div id="SignIn">
+                        <button type="submit" value="login" id="login-button">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="forgotPass" style="color: white; font-size: 150%">
+                <span><u>Forgot your Password?</u></span>
+            </div>
+            <div id="Register" style="color: white; font-size: 150%">
+                <a href="/registration"><span><u>Register</u></span></a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
