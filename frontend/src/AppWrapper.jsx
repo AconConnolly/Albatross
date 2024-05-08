@@ -23,31 +23,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 
 const drawerWidth = 240;
-//
-// const theme = createTheme({
-//   components: {
-//     MuiTypography: {
-//       variants: [
-//         {
-//           props: {
-//             variant: "body2",
-//           },
-//           style: {
-//             fontSize: 11,
-//           },
-//         },
-//         {
-//           props: {
-//             variant: "body3",
-//           },
-//           style: {
-//             fontSize: 9,
-//           },
-//         },
-//       ],
-//     },
-//   },
-// });
+
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
@@ -74,6 +50,7 @@ const AppBar = styled(MuiAppBar, {
       position: "relative",
       whiteSpace: "nowrap",
       width: drawerWidth,
+      backgroundColor: "#1d3740",
       transition: theme.transitions.create("width", {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
@@ -108,7 +85,8 @@ export default function AppWrapper ({children}) {
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: "24px", // keep right padding when drawer closed
+              pr: "24px",
+              backgroundColor: "#1d3740" // keep right padding when drawer closed
             }}
           >
             <IconButton
@@ -119,24 +97,23 @@ export default function AppWrapper ({children}) {
               sx={{
                 marginRight: "36px",
                 ...(open && { display: "none" }),
+                "& .MuiSvgIcon-root": { 
+                  color: "#dc9e2b" 
+                }
               }}
             >
               <MenuIcon />
             </IconButton>
             <Typography
               component="h1"
-              variant="h6"
-              color="inherit"
+              variant="h4"
+              color="#dc9e2b"
               noWrap
               sx={{ flexGrow: 1 }}
             >
               Albatross
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+            
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -146,10 +123,13 @@ export default function AppWrapper ({children}) {
               alignItems: "center",
               justifyContent: "flex-end",
               px: [1],
+              color: "#dc9e2b",
             }}
           >
             <IconButton onClick={toggleDrawer}>
-              <ChevronLeftIcon />
+              <ChevronLeftIcon sx={{
+              color: "#dc9e2b",
+            }}/>
             </IconButton>
           </Toolbar>
           <Divider />

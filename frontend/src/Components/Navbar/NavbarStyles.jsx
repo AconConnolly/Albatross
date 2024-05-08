@@ -2,6 +2,7 @@ import { red } from "@mui/material/colors";
 
 export const NavbarStyles = {
     drawer: {
+        
         width: 240,
         flexShrink: 0,
         '& .MuiDrawer-paper': {
@@ -15,13 +16,14 @@ export const NavbarStyles = {
         },
     },
     icons: {
-        color: 'rgba(0, 0, 0, 1)!important',
+        color: '#dc9e2b',
     },
     text: {
         '& span': {
             marginLeft: '-10px',
             fontWeight: '600',
             fontSize: '16px',
+            color: '#dc9e2b'
         }
     } 
 };

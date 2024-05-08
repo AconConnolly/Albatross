@@ -22,8 +22,10 @@ const drawerWidth = 240;
 const Navbar = () => {
   const navigate = useNavigate();
   return (
-    <Drawer sx={navbarStyles.drawer} variant="permanent" anchor="left">
-      <Toolbar />
+    <Drawer sx={{
+      
+      ...navbarStyles.drawer}} variant="permanent" anchor="left" >
+      <Toolbar/>
       <Divider />
       <List>
         {mainNavbarItems.map((item, index) => (
