@@ -20,7 +20,7 @@ export default function SignUp() {
     const formData = new FormData(event.currentTarget);
 
     try {
-      const response = await axios.post('/users', {
+      const response = await axios.post('/register', {
         firstName: formData.get('firstName'),
         lastName: formData.get('lastName'),
         email: formData.get('email'),
@@ -31,9 +31,20 @@ export default function SignUp() {
 
       console.log(response.data);
     } catch (error) {
-      console.error('Error registering user:', error);
-    }
-  };
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error('Server responded with error status:', error.response.status);
+        console.error('Error response data:', error.response.data);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error('No response received from server:', error.request);
+      } else {
+        // Something else happened while setting up the request
+        console.error('Error setting up the request:', error.message);
+      }
+  }
+}
 
   return (
     <ThemeProvider theme={defaultTheme}>

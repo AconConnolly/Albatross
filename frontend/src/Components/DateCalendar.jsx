@@ -6,7 +6,9 @@ import CourseSelection from "./CourseSelection";
 import Container from "@mui/material/Container";
 
 export default function StaticDateTimePickerLandscape(props) {
-  const [value, setValue] = React.useState(null);
+  const [value, setValue] = useState(null);
+  const [initialValue] = useState(new Date());
+  
   const onDatePicked = (event) => {
     setValue(event);
     let onlyDate = event.$d.toISOString();
@@ -14,12 +16,12 @@ export default function StaticDateTimePickerLandscape(props) {
     console.log("Date Changed", event, onlyDate);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (props.initialValue !== 0 && value === null) {
       setValue(props.initialValue);
       console.log("Initial Date is", props.initialValue);
-    }
-  }, [props.initialValue, value, setValue]);
+    } 
+  }, [props.initialValue, value]);
 
 
   return (

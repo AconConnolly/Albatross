@@ -13,6 +13,7 @@ import Confed from "./Components/Calgary Courses/Confed";
 import McCall from "./Components/Calgary Courses/McCall";
 import MapleRidge from "./Components/Calgary Courses/MapleRidge";
 import ShagPoint from "./Components/Calgary Courses/ShagPoint"
+import Bookings from "./Bookings";
 import Lakeview from "./Components/Calgary Courses/Lakeview";
 
 // TODO remove, this demo shouldn't need to reset the theme.
@@ -23,10 +24,10 @@ export default function Dashboard() {
       <AppWrapper>
         <Routes>
           <Route path="/home" element={<Main />} />
-          <Route path="/bookings" element={<Main />} />
+          <Route path="/bookings" element={<Bookings />} />
           <Route path="/courses" element={<AllCourses />} />
           <Route path="/login" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route path="/register" element={<SignUp />} />
           <Route path="/confed" element={<Confed />} />
           <Route path="/mccall" element={<McCall />} />
           <Route path="/maple" element={<MapleRidge />} />

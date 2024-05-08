@@ -15,6 +15,7 @@ export default function Main(props) {
   return (
         
       <Container style={{marginTop: '30px'}}>
+        <h1>Book a Tee Time</h1>
 
           <DateCalendarValue />
     

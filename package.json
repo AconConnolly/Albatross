@@ -12,6 +12,7 @@
   "description": "",
   "dependencies": {
     "@mui/icons-material": "^5.14.9",
+    "axios": "^1.6.7",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
     "crypto-js": "^4.1.1",
