@@ -6,33 +6,46 @@ import { styled } from "@mui/system";
 import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
 import { useState } from "react";
 
+const options = [
+  { value: 10, name: "Confederation Park (9)" },
+  { value: 20, name: "Lakeview (9)" },
+  { value: 30, name: "Maple Ridge (18)" },
+  { value: 40, name: "McCall Lake (18)" },
+  { value: 50, name: "McCall Lake Par 3 (9)" },
+  { value: 60, name: "Shaganappi Point (18)" },
+  { value: 70, name: "Shaganappi Valley (9)" },
+  { value: 80, name: "Shaganappi Valley Back (9)" },
+];
 
-export default function UnstyledSelectMultiple() {
+export default function CourseSelection( ) {
+  const [courseSelected, setCourseSelected] = useState([10]);
 
-    const [selectedValue, setSelectedValue] = useState(null);
+  const handleSelectionChange = (event) => {
+    const values = event.target.value;
+    setCourseSelected(values);
+    const selectedNames = options
+      .filter(option => values.includes(option.value))
+      .map(option => option.name);
+      
+    console.log("Selected options:", selectedNames);
 
-    const handleSelectionChange = (event) => {
-    const value = event.target.value;
-    setSelectedValue(value);
-    onSelectValueChange(value); // Invoke the onSelectValueChange callback with the selected value
+    onSelectValueChange(values); 
   };
+
+  console.log("courseSelected:", courseSelected);
+
   return (
-    <MultiSelect defaultValue={[10, 20]}>
-      <Option value={10}>Confederation Park (9)</Option>
-      <Option value={20}>Lakeview (9)</Option>
-      <Option value={30}>Maple Ridge (18)</Option>
-      <Option value={40}>McCall Lake (18)</Option>
-      <Option value={50}>McCall Lake Par 3 (9)</Option>
-      <Option value={60}>Shaganappi Point (18)</Option>
-      <Option value={70}>Shaganappi Valley (9)</Option>
-      <Option value={80}>Shaganappi Valley Back (9)</Option>
+    <MultiSelect value={courseSelected} onChange={handleSelectionChange}>
+      {options.map(option => (
+        <Option key={option.value} value={option.value}>{option.name}</Option>
+      ))}
     </MultiSelect>
   );
 }
 
-UnstyledSelectMultiple.propTypes = {
-    onSelectValueChange: PropTypes.func.isRequired, // Define the onSelectValueChange prop as a function
-  };
+CourseSelection.propTypes = {
+    onSelectValueChange: PropTypes.func.isRequired, 
+};
 
 const MultiSelect = React.forwardRef(function CustomMultiSelect(props, ref) {
   const slots = {

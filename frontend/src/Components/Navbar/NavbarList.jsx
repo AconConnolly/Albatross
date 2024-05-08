@@ -9,13 +9,13 @@ export const mainNavbarItems = [
     {
         id: 0,
         icon: <HomeIcon/>,
-        label:'Home',
+        label:'Make a Booking',
         route: 'home',
     },
     {
         id: 1,
         icon: <SportsGolfIcon/>,
-        label:'Bookings',
+        label:'Your Bookings',
         route: 'bookings',
     },
     {

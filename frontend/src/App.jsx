@@ -5,9 +5,9 @@ import Main from "./Main";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
-import SignIn from "./Components/SignIn";
+import SignIn from "./pages/SignIn";
 import AppWrapper from "./AppWrapper";
-import SignUp from "./Components/SignUp";
+import SignUp from "./pages/SignUp";
 import AllCourses from "./pages/AllCourses";
 import Confed from "./Components/Calgary Courses/Confed";
 import McCall from "./Components/Calgary Courses/McCall";

@@ -9,15 +9,21 @@ import DateCalendarValue from "./Components/DateCalendar";
 
 
 export default function Main(props) {
-  const handleSelectionChange = (selectedValue) => {
-    console.log("Selected value:", selectedValue);
+  
+  const handleDateChange = (event) => {
+    console.log("Event Information:", event);
+    //Do something with the event info
   }
+
   return (
         
       <Container style={{marginTop: '30px'}}>
         <h1>Book a Tee Time</h1>
+        <button>
+          BOOK
+        </button>
 
-          <DateCalendarValue />
+          <DateCalendarValue onDateChange={handleDateChange} />
     
       </Container>
    

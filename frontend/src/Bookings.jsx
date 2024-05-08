@@ -1,21 +1,25 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Link from "@mui/material/Link";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import DateCalendar from "./Components/DateCalendar";
 
-export default function Main(props) {
+export default function Bookings(props) {
+  const [selectedDate, setSelectedDate] = React.useState(null); // State to store the selected date
+
   const handleSelectionChange = (selectedValue) => {
     console.log("Selected value:", selectedValue);
+    setSelectedDate(selectedValue); // Update the selected date state
+  };
+
+  const handleDateChange = (event) => {
+    console.log("Date changed in Bookings component:", event.$d);
+    setSelectedDate(event); // Update the selected date state
   };
 
   const bookedCards = [
@@ -70,6 +74,17 @@ export default function Main(props) {
       <Container style={{ marginTop: "30px" }}>
         <h1>Your Bookings</h1>
         <h2>Confirmed Bookings</h2>
+        <Container
+          style={{ backgroundColor: "black", height: "200px", width: "300px" }}
+        >
+          {/* Display selected date */}
+          {selectedDate && (
+            <Typography variant="h6">
+              Selected Date: {selectedDate.$d.toString()}
+            </Typography>
+          )}
+          
+        </Container>
         <h2>Pending bookings</h2>
       </Container>
 
