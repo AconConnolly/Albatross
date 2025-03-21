@@ -29,10 +29,9 @@ export default function CourseSelection( ) {
       
     console.log("Selected options:", selectedNames);
 
-    onSelectValueChange(values); 
+    setSelectedDate(values); 
   };
 
-  console.log("courseSelected:", courseSelected);
 
   return (
     <MultiSelect value={courseSelected} onChange={handleSelectionChange}>

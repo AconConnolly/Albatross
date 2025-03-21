@@ -7,10 +7,11 @@ import Container from "@mui/material/Container";
 
 export default function DateCalendar(props) {
   const [value, setValue] = useState(null);
-  const [initialValue] = useState(new Date());
+  const [initialValue, setSelectedDate] = useState(new Date());
   
   const onDatePicked = (event) => {
     setValue(event);
+    setSelectedDate(event);
     let onlyDate = event.$d.toISOString();
     
     console.log("Date Changed", event, onlyDate);
@@ -46,6 +47,12 @@ export default function DateCalendar(props) {
         onChange={onDatePicked}
         renderInput={(params) => <TextField {...params} />}
       />
+      {value && (
+        <Container style={{ marginTop: '20px' }}>
+          <p>Selected Date: {value.$d.toLocaleDateString()}</p>
+          <p>Selected Time: {value.$d.toLocaleTimeString()}</p>
+        </Container>
+      )}
     </LocalizationProvider>
   );
 }
